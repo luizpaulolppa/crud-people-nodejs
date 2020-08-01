@@ -1,4 +1,5 @@
 const User = require('../model/User');
+const userValidator = require('../validator/userValidator');
 
 module.exports = {
   async index(ctx) {
@@ -7,32 +8,29 @@ module.exports = {
   },
 
   async find(ctx) {
-    ctx.body = {};
+    const { id } = ctx.params.id;
+    const user = await User.find(id);
+    ctx.body = user;
   },
 
   async create(ctx) {
-    const {
-      type,
-      name,
-      companyName,
-      cpfCnpj,
-      sex,
-      birthday,
-      email,
-      phone,
-      photoUrl,
-    } = ctx.request.body;
-    ctx.body = {
-      type,
-      name,
-      companyName,
-      cpfCnpj,
-      sex,
-      birthday,
-      email,
-      phone,
-      photoUrl,
-    };
+    try {
+      const {
+        type, name, cpfCnpj, sex, birthday, email, phone, photoUrl,
+      } = ctx.request.body;
+
+      await userValidator.validateAsync({
+        type, name, cpfCnpj, sex, birthday, email, phone, photoUrl,
+      });
+
+      const user = await User.create({
+        type, name, cpfCnpj, sex, birthday, email, phone, photoUrl,
+      });
+
+      ctx.body = user;
+    } catch (ex) {
+      ctx.body = { error: ex };
+    }
   },
 
   async update(ctx) {

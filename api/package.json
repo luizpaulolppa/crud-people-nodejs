@@ -8,6 +8,7 @@
   "author": "Luiz Paulo Pilegi de Almeida",
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "koa": "^2.13.0",
     "koa-body": "^4.2.0",
     "koa-router": "^9.1.0",
