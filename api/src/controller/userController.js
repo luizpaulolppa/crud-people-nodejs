@@ -1,6 +1,9 @@
+const User = require('../model/User');
+
 module.exports = {
   async index(ctx) {
-    ctx.body = {};
+    const users = await User.find();
+    ctx.body = users;
   },
 
   async find(ctx) {
