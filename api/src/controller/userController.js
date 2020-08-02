@@ -5,19 +5,23 @@ const { validCpfCnpj } = require('../util/validators');
 
 module.exports = {
   async index(ctx) {
-    const users = await User.find({ active: true });
-    ctx.body = users.map((user) => ({
-      id: user._id,
-      type: user.type,
-      name: user.name,
-      cpfCnpj: user.cpfCnpj,
-      sex: user.sex,
-      birthday: user.birthday,
-      email: user.email,
-      phone: user.phone,
-      photoUrl: user.photoUrl,
-      createdAt: user.createdAt,
-    }));
+    try {
+      const users = await User.find({ active: true });
+      ctx.body = users.map((user) => ({
+        id: user._id,
+        type: user.type,
+        name: user.name,
+        cpfCnpj: user.cpfCnpj,
+        sex: user.sex,
+        birthday: user.birthday,
+        email: user.email,
+        phone: user.phone,
+        photoUrl: user.photoUrl,
+        createdAt: user.createdAt,
+      }));
+    } catch (ex) {
+      ctx.status = 500;
+    }
   },
 
   async find(ctx) {
@@ -68,6 +72,35 @@ module.exports = {
         return;
       }
 
+      if (type === 'PJ') {
+        sex = null;
+        birthday = null;
+      } else {
+        if (!sex) {
+          ctx.body = {
+            errors: [
+              {
+                key: 'sex',
+                message: 'Sexo inválido',
+              },
+            ],
+          };
+          return;
+        }
+
+        if (!birthday) {
+          ctx.body = {
+            errors: [
+              {
+                key: 'birthday',
+                message: 'Data de aniversário inválido',
+              },
+            ],
+          };
+          return;
+        }
+      }
+
       let user = await User.findOne({ email });
       if (user) {
         ctx.body = {
@@ -106,11 +139,6 @@ module.exports = {
         return;
       }
 
-      if (type === 'PJ') {
-        sex = '';
-        birthday = '';
-      }
-
       user = await User.create({
         type, name, cpfCnpj, sex, birthday, email, phone, photoUrl,
       });
@@ -140,7 +168,137 @@ module.exports = {
   },
 
   async update(ctx) {
-    ctx.body = {};
+    try {
+      await userValidator.validateAsync(ctx.request.body);
+
+      const { id } = ctx.params;
+
+      const {
+        type, name, cpfCnpj, email, phone, photoUrl,
+      } = ctx.request.body;
+
+      let { sex, birthday } = ctx.request.body;
+
+      if (!['PF', 'PJ'].includes(type)) {
+        ctx.body = {
+          errors: [
+            {
+              key: 'type',
+              message: 'Tipo de usuário inválido',
+            },
+          ],
+        };
+        return;
+      }
+
+      if (type === 'PJ') {
+        sex = null;
+        birthday = null;
+      } else {
+        if (!sex) {
+          ctx.body = {
+            errors: [
+              {
+                key: 'sex',
+                message: 'Sexo inválido',
+              },
+            ],
+          };
+          return;
+        }
+
+        if (!birthday) {
+          ctx.body = {
+            errors: [
+              {
+                key: 'birthday',
+                message: 'Data de aniversário inválido',
+              },
+            ],
+          };
+          return;
+        }
+      }
+
+      let user = await User.findOne({ _id: id });
+      if (!user) {
+        ctx.body = {
+          errors: [
+            {
+              key: 'id',
+              message: 'Usuário não existe.',
+            },
+          ],
+        };
+        return;
+      }
+
+      user = await User.findOne({ email });
+      if (user && `${user._id}` !== `${id}`) {
+        ctx.body = {
+          errors: [
+            {
+              key: 'email',
+              message: 'E-mail já existe.',
+            },
+          ],
+        };
+        return;
+      }
+
+      user = await User.findOne({ cpfCnpj });
+      if (user && `${user._id}` !== `${id}`) {
+        ctx.body = {
+          errors: [
+            {
+              key: 'cpfCnpj',
+              message: 'CPF/CNPJ já existe.',
+            },
+          ],
+        };
+        return;
+      }
+
+      if (!validCpfCnpj(type, cpfCnpj)) {
+        ctx.body = {
+          errors: [
+            {
+              key: 'cpfCnpj',
+              message: 'CPF/CNPJ inválido.',
+            },
+          ],
+        };
+        return;
+      }
+
+      await User.updateOne({
+        type, name, cpfCnpj, sex, birthday, email, phone, photoUrl,
+      });
+
+      user = await User.findOne({ _id: id });
+
+      ctx.status = 200;
+      ctx.body = {
+        id: user._id,
+        type: user.type,
+        name: user.name,
+        cpfCnpj: user.cpfCnpj,
+        sex: user.sex,
+        birthday: user.birthday,
+        email: user.email,
+        phone: user.phone,
+        photoUrl: user.photoUrl,
+        createdAt: user.createdAt,
+      };
+    } catch (ex) {
+      if (ex.details && ex.details.length) {
+        ctx.status = 403;
+        ctx.body = { errors: mapErrors(ex.details) };
+      } else {
+        ctx.status = 500;
+        ctx.body = { error: ex };
+      }
+    }
   },
 
   async delete(ctx) {
