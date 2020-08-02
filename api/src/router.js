@@ -10,10 +10,10 @@ router.post('/users', userController.create);
 router.put('/users/:id', userController.update);
 router.delete('/users/:id', userController.delete);
 
-router.get('/users/:user_id/adresses', addressController.update);
-router.get('/users/:user_id/adresses/:id', addressController.find);
+router.get('/users/:user_id/adresses', addressController.index);
+router.get('/users/:user_id/adresses/:address_id', addressController.find);
 router.post('/users/:user_id/adresses', addressController.create);
-router.put('/users/:user_id/adresses/:id', addressController.update);
-router.delete('/users/:user_id/adresses/:id', addressController.delete);
+router.put('/users/:user_id/adresses/:address_id', addressController.update);
+router.delete('/users/:user_id/adresses/:address_id', addressController.delete);
 
 module.exports = router;

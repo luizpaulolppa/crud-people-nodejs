@@ -271,7 +271,7 @@ module.exports = {
         return;
       }
 
-      await User.updateOne({
+      await User.findOne({ _id: id }).update({
         type, name, cpfCnpj, sex, birthday, email, phone, photoUrl,
       });
 
