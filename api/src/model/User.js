@@ -15,8 +15,9 @@ const UserSchema = new mongoose.Schema({
     require: true,
     lowercase: true,
   },
-  cpfCnpf: {
+  cpfCnpj: {
     type: String,
+    unique: true,
     require: true,
   },
   sex: {
@@ -34,6 +35,10 @@ const UserSchema = new mongoose.Schema({
   photoUrl: {
     type: String,
     require: true,
+  },
+  active: {
+    type: Boolean,
+    default: true,
   },
   createdAt: {
     type: Date,
