@@ -2,13 +2,23 @@ const Address = require('../model/Address');
 const User = require('../model/User');
 const addressValidator = require('../validator/addressValidator');
 const { mapErrors } = require('../util/mapErros');
+const { pageLimit } = require('../contants');
 
 module.exports = {
   async index(ctx) {
     try {
+      const page = Number(ctx.request.query.page || 1);
       const { user_id: userId } = ctx.params;
-      const addresses = await Address.find({ user: userId });
-      ctx.body = addresses.map((address) => ({
+
+      let addresses = await Address.find({ user: userId })
+        .limit(pageLimit)
+        .skip((page - 1) * pageLimit)
+        .sort({ name: 'asc' });
+
+      const total = await Address.count();
+      const totalPages = Math.ceil(total / pageLimit);
+
+      addresses = addresses.map((address) => ({
         id: address._id,
         street: address.street,
         number: address.number,
@@ -19,6 +29,14 @@ module.exports = {
         zipCode: address.zipCode,
         createdAt: address.createdAt,
       }));
+
+      ctx.body = {
+        addresses,
+        page,
+        pageSize: pageLimit,
+        totalPages,
+        total,
+      };
     } catch (ex) {
       ctx.status = 500;
     }

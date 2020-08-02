@@ -2,12 +2,21 @@ const User = require('../model/User');
 const userValidator = require('../validator/userValidator');
 const { mapErrors } = require('../util/mapErros');
 const { validCpfCnpj } = require('../util/validators');
+const { pageLimit } = require('../contants');
 
 module.exports = {
   async index(ctx) {
     try {
-      const users = await User.find({ active: true });
-      ctx.body = users.map((user) => ({
+      const page = Number(ctx.request.query.page || 1);
+      let users = await User.find({ active: true })
+        .limit(pageLimit)
+        .skip((page - 1) * pageLimit)
+        .sort({ name: 'asc' });
+
+      const total = await User.count();
+      const totalPages = Math.ceil(total / pageLimit);
+
+      users = users.map((user) => ({
         id: user._id,
         type: user.type,
         name: user.name,
@@ -19,6 +28,14 @@ module.exports = {
         photoUrl: user.photoUrl,
         createdAt: user.createdAt,
       }));
+
+      ctx.body = {
+        users,
+        page,
+        pageSize: pageLimit,
+        totalPages,
+        total,
+      };
     } catch (ex) {
       ctx.status = 500;
     }
