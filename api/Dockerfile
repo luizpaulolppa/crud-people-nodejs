@@ -1,12 +1,12 @@
 FROM node:12
 
-WORKDIR /usr/src/crud-people
+WORKDIR /usr/src/api
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --silent
 
 COPY . .
 
-EXPOSE 3000
-CMD [ "npm", "run", "dev:server" ]
+EXPOSE 3001
+CMD ["npm", "run", "dev:server"]
