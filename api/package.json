@@ -9,6 +9,7 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "@koa/cors": "^3.1.0",
     "cpf-cnpj-validator": "^1.0.2",
     "koa": "^2.13.0",
     "koa-body": "^4.2.0",
