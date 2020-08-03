@@ -3,4 +3,10 @@ export default interface UserDTO {
   name: string;
   photoUrl: string;
   type: string;
+  birthday: string;
+  cpfCnpj: string;
+  createdAt: string;
+  email: string;
+  phone: string;
+  sex: string;
 }

@@ -13,7 +13,7 @@ const Header: React.FC = () => (
       </Link>
       <div>
         <Link to="/">USUÁRIOS</Link>
-        <Link to="/new-user">NOVO USUÁRIO</Link>
+        <Link to="/users/new">NOVO USUÁRIO</Link>
       </div>
     </div>
   </nav>

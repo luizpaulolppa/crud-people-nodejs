@@ -1,0 +1,32 @@
+.show-user-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.show-user-page .show-user-container {
+  width: 100%;
+  max-width: 1000px;
+  margin-bottom: 20px;
+}
+
+.show-user-page .show-user-container h1 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.show-user-page .show-user-container .box-group {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.show-user-page .show-user-container .box-group div + div {
+  margin-left: 30px;
+}
+
+.show-user-page .show-user-container .box-button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
