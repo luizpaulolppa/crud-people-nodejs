@@ -22,7 +22,7 @@ body, input, button {
 
 h1, h2, h3, h4, h5, h6 {
   color: var(--title-color);
-  font-family: Ubuntu;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
 }
 
 input {
@@ -63,6 +63,10 @@ select {
   transition: opacity 0.2s;
   cursor: pointer;
   outline: none;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 

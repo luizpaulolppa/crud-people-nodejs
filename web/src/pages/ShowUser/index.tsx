@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, Link } from 'react-router-dom';
 
 import './styles.css';
 import api from '../../service/api';
@@ -73,7 +73,7 @@ const ShowUser: React.FC = () => {
           </div>
 
           <div className="box-button">
-            <button className="button-save">Editar</button>
+            <Link to={`/users/${user?.id}/edit`} className="button-save">Editar</Link>
           </div>
         </div>
       </div>

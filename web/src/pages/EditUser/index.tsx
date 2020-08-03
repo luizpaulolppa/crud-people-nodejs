@@ -1,12 +1,18 @@
-import React, { useState, FormEvent } from 'react';
-import { useHistory } from 'react-router-dom';
-import Header from '../../components/Header';
-
-import api from '../../service/api';
+import React, { useState, FormEvent, useEffect } from 'react';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 
 import './styles.css';
+import Header from '../../components/Header';
+import api from '../../service/api';
 
-const NewUser: React.FC = () => {
+interface Params {
+  id: string;
+}
+
+const EditUser: React.FC = () => {
+  const { params } = useRouteMatch<Params>();
+
+  const [userId, setUserId] = useState<string>(params.id);
   const [errors, setErrors] = useState<string[]>([]);
   const [type, setType] = useState('PF');
   const [name, setName] = useState('');
@@ -18,6 +24,22 @@ const NewUser: React.FC = () => {
   const [photoUrl, setPhotoUrl] = useState('');
 
   const history = useHistory();
+
+
+  useEffect(() => {
+    api.get(`/users/${userId}`)
+      .then((response) => {
+        setType(response.data.type);
+        setName(response.data.name);
+        setCpfCnpj(response.data.cpfCnpj);
+        setSex(response.data.sex);
+        setBirthday(response.data.birthday);
+        setName(response.data.name);
+        setEmail(response.data.email);
+        setPhone(response.data.phone);
+        setPhotoUrl(response.data.photoUrl);
+      });
+  }, [userId]);
 
   async function handleAddUser(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
@@ -39,8 +61,8 @@ const NewUser: React.FC = () => {
         phone,
         photoUrl,
       }
-      await api.post('/users', user);
-      history.push('/');
+      await api.put(`/users/${params.id}`, user);
+      history.push(`/users/${params.id}`);
     } catch (e) {
       setErrors(['Não foi possível salvar o usuário! Por favor tente novamente.'])
     }
@@ -54,18 +76,18 @@ const NewUser: React.FC = () => {
     }
 
     if (!cpfCnpj) {
-      if (type == 'PF') {
+      if (type === 'PF') {
         newErrors = [...newErrors, 'CPF é obrigatório'];
       } else {
         newErrors = [...newErrors, 'CNPJ é obrigatório'];
       }
     }
 
-    if (type == 'PF' && !sex) {
+    if (type === 'PF' && !sex) {
       newErrors = [...newErrors, 'Sexo deve ser preenchido'];
     }
 
-    if (type == 'PF' && !birthday) {
+    if (type === 'PF' && !birthday) {
       newErrors = [...newErrors, 'Data de nascimento deve ser preenchido'];
     }
 
@@ -88,9 +110,9 @@ const NewUser: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="user-page">
+      <div className="edit-user-page">
         <form onSubmit={handleAddUser}>
-          <h1>Novo usuário</h1>
+          <h1>Editando usuário</h1>
 
           {
             errors.map((error, index) => (
@@ -174,7 +196,7 @@ const NewUser: React.FC = () => {
         </form>
       </div>
     </>
-  )
+  );
 }
 
-export default NewUser;
+export default EditUser;
