@@ -1,4 +1,5 @@
 import React, { useState, FormEvent } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 
 import api from '../../service/api';
@@ -6,6 +7,7 @@ import api from '../../service/api';
 import './styles.css';
 
 const NewUser: React.FC = () => {
+  const [errors, setErrors] = useState<string[]>([]);
   const [type, setType] = useState('PF');
   const [name, setName] = useState('');
   const [cpfCnpj, setCpfCnpj] = useState('');
@@ -15,10 +17,18 @@ const NewUser: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
 
+  const history = useHistory();
+
   async function handleAddUser(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
 
     try {
+      setErrors([]);
+
+      if (!validateFields()) {
+        return;
+      }
+
       const user = {
         type,
         name,
@@ -29,11 +39,50 @@ const NewUser: React.FC = () => {
         phone,
         photoUrl,
       }
-      const response = await api.post('/users', user);
-      console.log(response);
+      await api.post('/users', user);
+      history.push('/');
     } catch(e) {
-      alert('Erro ao salvar usuário! tente novamente.')
+      setErrors(['Não foi possível salvar o usuário! Por favor tente novamente.'])
     }
+  }
+
+  function validateFields(): boolean {
+    let newErrors: string[] = [];
+
+    if (!name) {
+      newErrors = [...newErrors, 'Nome deve ser preenchido'];
+    }
+
+    if (!cpfCnpj) {
+      if (type == 'PF') {
+        newErrors = [...newErrors, 'CPF é obrigatório'];
+      } else {
+        newErrors = [...newErrors, 'CNPJ é obrigatório'];
+      }
+    }
+
+    if (type == 'PF' && !sex) {
+      newErrors = [...newErrors, 'Sexo deve ser preenchido'];
+    }
+
+    if (type == 'PF' && !birthday) {
+      newErrors = [...newErrors, 'Data de nascimento deve ser preenchido'];
+    }
+
+    if (!email) {
+      newErrors = [...newErrors, 'E-mail deve ser preenchido'];
+    }
+
+    if (!photoUrl) {
+      newErrors = [...newErrors, 'Foto URL deve ser preenchido'];
+    }
+
+    if (!phone) {
+      newErrors = [...newErrors, 'Telefone deve ser preenchido'];
+    }
+
+    setErrors(newErrors);
+    return !!!newErrors.length;
   }
 
   return (
@@ -42,6 +91,12 @@ const NewUser: React.FC = () => {
       <div className="user-page">
         <form onSubmit={handleAddUser}>
           <h1>Novo usuário</h1>
+
+          {
+            errors.map((error, index) => (
+              <div key={index} className="message-error">{error}</div>
+            ))
+          }
 
           <div className="form-group">
             <label htmlFor="type">Tipo</label>

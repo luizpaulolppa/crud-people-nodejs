@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
 import Header from '../../components/Header';
 
 import './styles.css';
+import api from '../../service/api';
+import UserDTO from '../../dto/UserDTO';
 
 const ListUsers: React.FC = () => {
-  const [users, setUsers] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [users, setUsers] = useState<UserDTO[]>([]);
+
+  useEffect(() => {
+    api.get('/users')
+    .then((response) => {
+      setUsers(response.data.users);
+    })
+  }, []);
 
   return (
     <>
@@ -14,16 +24,16 @@ const ListUsers: React.FC = () => {
         <div className="users">
           {
             users.map(user => (
-              <div className="user" key={user}>
+              <Link to={`/users/${user.id}`} className="user" key={user.id}>
                 <div className="box-info">
-                  <img src="https://avatars3.githubusercontent.com/u/13604790?s=400&u=4a3f579504a3a441ba6d1ef8896f84bb04841a85&v=4" alt="Perfil" />
+                  <img src={user.photoUrl} alt="Perfil" />
                   <div>
-                    <p>Luiz Paulo Pilegi de Almeida</p>
-                    <strong>PF</strong>
+                    <p>{user.name}</p>
+                    <strong>{user.type}</strong>
                   </div>
                 </div>
                 <FiChevronRight size={20} />
-              </div>
+              </Link>
             ))
           }
         </div>

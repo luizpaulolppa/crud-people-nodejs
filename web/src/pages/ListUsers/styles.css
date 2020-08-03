@@ -21,6 +21,7 @@
   padding: 24px;
   transition: transform 0.2s;
   margin-top: 20px;
+  text-decoration: none;
 }
 
 .users-page .user:hover {
@@ -30,6 +31,15 @@
 .users-page .user .box-info {
   display: flex;
   align-items: center;
+}
+
+.users-page .user .box-info div p {
+  color: #a8a8b3;
+}
+
+.users-page .user .box-info div strong {
+  color: black;
+  font-weight: 400;
 }
 
 .users-page .users img {

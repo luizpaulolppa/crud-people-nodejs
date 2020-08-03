@@ -16,6 +16,19 @@
   border: 0;
 }
 
+.user-page form .message-error {
+  height: 50px;
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  margin-top: 12px;
+}
+
 .user-page .box-button {
   margin-top: 20px;
   margin-bottom: 20px;
