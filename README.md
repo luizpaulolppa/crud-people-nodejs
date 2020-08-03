@@ -1,6 +1,6 @@
 # CRUD de usuários
 
-### Essa aplicação foi desenvolvida com intuito de colocar em prática conhecimentos nas tecnologias NodeJS com API's Restful e banco de dados MongoDB utilizando conceitos básicos.
+##### Essa aplicação foi desenvolvida com intuito de colocar em prática conhecimentos nas tecnologias NodeJS com API's Restful e banco de dados MongoDB utilizando conceitos básicos.
 
 ##### Obs.: Esse repositório foi dividido em duas sub pastas/projetos, sendo elas web e api. A pasta web existe um projeto front-end simples construído em ReactJS levando em conta conceitos básicos da tecnologia, como navegação, controle de estado e componentização. Já na pasta api existe um projeto construído em NodeJS utilizando Koa como framework http, MongoDB para banco de dados e estruturada com docker e docker-compose para desenvolvimento.
 
