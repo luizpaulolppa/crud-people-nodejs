@@ -8,7 +8,7 @@
 
 1) Ter instalado Docker no seu computador. Para mais informações de instalação clique aqui: [Install docker](https://docs.docker.com/install/).
 
-2) Clonar [repositório](https://github.com/luizpaulolppa/crud-people-nodejs) em algum diretório do seu S.O..
+2) Ter clonado o [repositório](https://github.com/luizpaulolppa/crud-people-nodejs) em algum diretório do seu S.O..
 
 # Para rodar a aplicação back-end (API)
 
