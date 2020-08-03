@@ -1,0 +1,40 @@
+.users-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.users-page .users {
+  width: 100%;
+  max-width: 1000px;
+  margin-bottom: 20px;
+}
+
+.users-page .user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100px;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 5px;
+  padding: 24px;
+  transition: transform 0.2s;
+  margin-top: 20px;
+}
+
+.users-page .user:hover {
+  transform: translate(10px);
+}
+
+.users-page .user .box-info {
+  display: flex;
+  align-items: center;
+}
+
+.users-page .users img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-right: 12px;
+}

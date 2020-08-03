@@ -1,0 +1,70 @@
+:root {
+  --primary-color: #34CB79;
+  --title-color: #322153;
+  --text-color: #6C6C80;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #F0F0F5;
+  -webkit-font-smoothing: antialiased;
+  color: var(--text-color);
+}
+
+body, input, button {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--title-color);
+  font-family: Ubuntu;
+}
+
+input {
+  height: 50px;
+  padding: 16px;
+  border-radius: 5px 0 0 5px;
+  color: #a8a8b3;
+  border: 1px solid #a8a8b3;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+}
+
+select {
+  height: 50px;
+  padding: 16px;
+  border-radius: 5px 0 0 5px;
+  color: #a8a8b3;
+  background-color: #fff;
+  border: 1px solid #a8a8b3;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+}
+
+.form-group {
+  margin-top: 12px;
+}
+
+.button-save {
+  width: 210px;
+  height: 70px;
+  background: #227840;
+  border-radius: 5px;
+  border: 0;
+  color: #fff;
+  font-weight: bold;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+
+.button-save:hover {
+  opacity: 0.9;
+}

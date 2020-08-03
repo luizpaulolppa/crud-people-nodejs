@@ -1,0 +1,36 @@
+
+.header-menu {
+  height: 120px;
+  background-color: #227840;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-menu .container {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.header-menu .container a {
+  color: white;
+  text-decoration: none;
+}
+
+.header-menu .container a + a {
+  margin-left: 24px;
+}
+
+.header-menu .container a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.header-menu img {
+  max-width: 100%;
+  height: auto;
+}
