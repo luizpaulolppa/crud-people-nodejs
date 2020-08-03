@@ -18,6 +18,7 @@
         4) $ exit
         5) $ docker-compose up api
         6) A aplicação já deve estar disponível na porta http://localhost:3001.
+        7) Pode ser acessado o server do MongoDB por essa URL: 
 
 # Para rodar a aplicação front-end (WEB)
 
@@ -26,3 +27,7 @@
         3) $ npm install
         4) $ npm start
         6) A aplicação já deve estar disponível na porta http://localhost:3000.
+
+# Para acessar bando de dados (MongoDB)
+
+        1) Pode ser usado qualquer cliente de MongoDB, mas como exemplo pode ser usado o MongoDB Compass.
