@@ -38,3 +38,5 @@
         2) $ docker-compose run --rm api bash
         3) $ npm run test
         6) Obs.: Devido ao tempo não foi finalizado os testes.
+
+## Obs.: Para uma melhor visualização das [APIs](https://documenter.getpostman.com/view/1354700/T1DwbZ3H).
